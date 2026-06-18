@@ -1,6 +1,6 @@
 package com.santos.valdomiro.meusgastos.core.exceptions
 
-class AppDatabaseException(
+class RegistroDuplicadoException(
     cause: Throwable? = null
 ) : Exception("Registro já existe no banco de dados.", cause)
 
