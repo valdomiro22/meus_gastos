@@ -1,4 +1,4 @@
-package com.santos.valdomiro.meusgastos
+package com.santos.valdomiro.meusgastos.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,10 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.santos.valdomiro.meusgastos.HomeScreen
 import com.santos.valdomiro.meusgastos.ui.theme.MeusGastosTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,11 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MeusGastosTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppRootScreen()
             }
         }
     }

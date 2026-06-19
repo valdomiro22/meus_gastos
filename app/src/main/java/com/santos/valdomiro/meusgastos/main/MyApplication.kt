@@ -1,4 +1,4 @@
-package com.santos.valdomiro.meusgastos
+package com.santos.valdomiro.meusgastos.main
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

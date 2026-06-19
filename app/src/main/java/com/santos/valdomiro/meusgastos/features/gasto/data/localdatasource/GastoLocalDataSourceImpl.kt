@@ -2,9 +2,11 @@ package com.santos.valdomiro.meusgastos.features.gasto.data.localdatasource
 
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
+import android.util.Log
 import com.santos.valdomiro.meusgastos.core.exceptions.ErroBancoDadosDesconhecidoException
 import com.santos.valdomiro.meusgastos.core.exceptions.RegistroDuplicadoException
 import com.santos.valdomiro.meusgastos.core.exceptions.RegistroInvalidoException
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.features.gasto.data.dao.GastoDao
 import com.santos.valdomiro.meusgastos.features.gasto.data.model.GastoLocalModel
 import javax.inject.Inject

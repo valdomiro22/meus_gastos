@@ -1,5 +1,7 @@
 package com.santos.valdomiro.meusgastos.features.gasto.domain.usecase
 
+import android.util.Log
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.repository.GastoRepository
 import javax.inject.Inject
@@ -9,6 +11,7 @@ class GetAllGastosUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(): Result<List<GastoEntity>> {
+        Log.d(TAG, "invoke: UseCase")
         return repository.getAll()
     }
 

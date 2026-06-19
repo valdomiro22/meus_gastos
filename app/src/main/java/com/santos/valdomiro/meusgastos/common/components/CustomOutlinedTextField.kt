@@ -1,0 +1,51 @@
+package com.santos.valdomiro.meusgastos.common.components
+
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun CustomOutlinedTextField(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String? = null,
+    label: String,
+    maxLines: Int? = null,
+    minLines: Int? = null,
+    isErro: Boolean,
+    icone: @Composable (() -> Unit)? = null,
+    inputType: KeyboardType = KeyboardType.Text
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        maxLines = maxLines ?: 1,
+        minLines = minLines ?: 1,
+        onValueChange = onValueChange,
+        placeholder = { Text(placeholder ?: "") },
+        keyboardOptions = KeyboardOptions(keyboardType = inputType),
+        shape = RoundedCornerShape(10.dp),
+        leadingIcon = icone,
+        label = { Text(label) },
+        isError = isErro,
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    val value = ""
+    CustomOutlinedTextField(
+        value = value,
+        onValueChange = {},
+        label = "Nome",
+        isErro = false,
+    )
+}
