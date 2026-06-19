@@ -12,9 +12,9 @@ data class GastoLocalModel(
 
     val descricao: String,
     val valor: Double,
-    val categoriaId: String?,
-    val data: Long,
-    val observacao: String?,
-    val criadoEm: Long,
-    val editadoEm: Long?
+    val categoriaId: String? = null,
+    val data: LocalDate,
+    val observacao: String? = null,
+    val criadoEm: Instant,
+    val editadoEm: Instant? = null
 )
