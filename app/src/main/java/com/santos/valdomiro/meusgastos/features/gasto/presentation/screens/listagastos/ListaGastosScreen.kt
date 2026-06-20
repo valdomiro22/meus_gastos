@@ -63,7 +63,7 @@ fun ListaGastosScreen(
     val context = LocalContext.current
     val navController = LocalNavController.current
     val state by viewModel.uiState.collectAsState()
-    var menuExpandido by remember { mutableStateOf(false) }  // Para o controle do DropdownMenu
+    var menuExpandido by remember { mutableStateOf(false) }
     val isDark = isSystemInDarkTheme()
 
     LaunchedEffect(Unit) {
