@@ -1,12 +1,19 @@
 package com.santos.valdomiro.meusgastos.features.gasto.presentation.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -28,8 +35,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.santos.valdomiro.meusgastos.core.helper.DataParaDatePicker.formatToBrazilian
 import java.time.LocalDate
@@ -39,97 +47,148 @@ fun ItemGastoComponent(
     titulo: String,
     valor: String,
     data: LocalDate,
-    categoria: String? = null,
-    descricao: String? = null,
+    categoria: String,
+    observacao: String? = null,
     onEditar: () -> Unit = {},
     onDeletar: () -> Unit = {}
 ) {
     var menuExpandido by remember { mutableStateOf(false) }
+
+    val isDark = isSystemInDarkTheme()
     val dataFormatada = data.formatToBrazilian()
+
+    val cardColor = if (isDark) Color(0xFF101B2B) else Color(0xFFFFFFFF)
+    val borderColor = if (isDark) Color(0xFF22324A) else Color(0xFFD7E3F5)
+
+    val tituloColor = if (isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
+    val textoSecundarioColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+    val gastoColor = if (isDark) Color(0xFF60A5FA) else Color(0xFF2563EB)
+
+
+    val gastoContainerColor = if (isDark) Color(0xFF122B4A) else Color(0xFFE0ECFF)
+    val deleteColor = if (isDark) Color(0xFFFF7A7E) else Color(0xFFE23A3A)
+    val categoriaContainerColor = if (isDark) Color(0xFF173B5C) else Color(0xFFE0F2FE)
+    val categoriaTextColor = if (isDark) Color(0xFF7DD3FC) else Color(0xFF0369A1)
+
+    val menuIconColor = if (isDark) Color(0xFFCBD5E1) else Color(0xFF475569)
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .padding(horizontal = 10.dp, vertical = 2.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = cardColor,
+            contentColor = tituloColor
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp) // Visual mais limpo "flat"
+        border = BorderStroke(
+            width = 1.dp,
+            color = borderColor
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = if (isDark) 0.dp else 3.dp
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(14.dp),
+            verticalAlignment = Alignment.Top
         ) {
-            // Coluna da Esquerda: Informações do Gasto
+            Box(
+                modifier = Modifier
+                    .width(5.dp)
+                    .height(92.dp)
+                    .background(
+                        color = gastoColor,
+                        shape = RoundedCornerShape(50.dp)
+                    )
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(7.dp)
             ) {
-                // Tag de Categoria
-                Surface(
-                    shape = RoundedCornerShape(6.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Surface(
+                        shape = RoundedCornerShape(50.dp),
+                        color = categoriaContainerColor,
+                        contentColor = categoriaTextColor
+                    ) {
+                        Text(
+                            text = categoria.uppercase(),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
-                        text = categoria ?: "Sem Categoria",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        text = dataFormatada,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = textoSecundarioColor,
+                        maxLines = 1
                     )
                 }
 
-                // Título do Gasto
                 Text(
                     text = titulo,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Bold,
+                    color = tituloColor,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
-                // Descrição opcional
-                if (!descricao.isNullOrEmpty()) {
+                if (!observacao.isNullOrBlank()) {
                     Text(
-                        text = descricao,
+                        text = observacao,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = textoSecundarioColor,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Column(
+                modifier = Modifier.widthIn(min = 96.dp),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(14.dp),
+                    color = gastoContainerColor,
+                    contentColor = gastoColor
+                ) {
+                    Text(
+                        text = "- R$ $valor",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Black,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
+                        maxLines = 1
                     )
                 }
 
-                // Data
-                Text(
-                    text = dataFormatada,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.outline
-                )
-            }
-
-            // Coluna da Direita: Valor e Menu de Ações
-            Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Valor em destaque
-                Text(
-                    text = "R$ $valor",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                // Menu de Opções
                 Box {
                     IconButton(
                         onClick = { menuExpandido = true },
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(28.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Mais opções",
-                            tint = MaterialTheme.colorScheme.outline
+                            contentDescription = "Opções",
+                            tint = menuIconColor
                         )
                     }
 
@@ -143,19 +202,30 @@ fun ItemGastoComponent(
                                 menuExpandido = false
                                 onEditar()
                             },
-                            leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Edit,
+                                    contentDescription = null
+                                )
+                            }
                         )
+
                         DropdownMenuItem(
-                            text = { Text("Deletar", color = MaterialTheme.colorScheme.error) },
+                            text = {
+                                Text(
+                                    text = "Deletar",
+                                    color = deleteColor
+                                )
+                            },
                             onClick = {
                                 menuExpandido = false
                                 onDeletar()
                             },
                             leadingIcon = {
                                 Icon(
-                                    Icons.Default.Delete,
+                                    imageVector = Icons.Default.Delete,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.error
+                                    tint = deleteColor
                                 )
                             }
                         )
@@ -164,28 +234,4 @@ fun ItemGastoComponent(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewItemGastoComponent() {
-    val titulo = "Pizza Sexta a noite"
-    val valor = "29,99"
-    val data = LocalDate.now()
-    val categoria = "Alimentação"
-    val descricao = "Aniversário da Dany"
-
-    ItemGastoComponent(
-        titulo = titulo,
-        valor = valor,
-        data = data,
-        categoria = categoria,
-        descricao = descricao,
-        onEditar = {
-            // lógica de preview
-        },
-        onDeletar = {
-            // lógica de preview
-        }
-    )
 }

@@ -11,7 +11,6 @@ class GetAllGastosUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(): Result<List<GastoEntity>> {
-        Log.d(TAG, "invoke: UseCase")
         return repository.getAll()
     }
 

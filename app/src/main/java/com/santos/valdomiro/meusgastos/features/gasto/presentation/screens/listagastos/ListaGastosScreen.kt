@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,7 @@ fun ListaGastosScreen(
                 title = {
                     Text(
                         text = "Lista de Gastos",
+                        fontWeight = FontWeight.W500,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
@@ -136,10 +138,10 @@ fun ListaGastosScreen(
                                 titulo = gasto.descricao,
                                 valor = gasto.valor.toString(),
                                 data = gasto.data,
-                                categoria = gasto.categoriaId,
-                                descricao = gasto.descricao,
-                                onEditar = {},
-                                onDeletar = {},
+                                categoria = gasto.categoriaId ?: "fasdf",
+                                observacao = gasto.observacao,
+                                onEditar = { navController.navigate(Route.EditarGastoRoute.criarRota(gastoId = gasto.id)) },
+                                onDeletar = { viewModel.deletarGasto(gasto) },
                             )
                         }
                     }

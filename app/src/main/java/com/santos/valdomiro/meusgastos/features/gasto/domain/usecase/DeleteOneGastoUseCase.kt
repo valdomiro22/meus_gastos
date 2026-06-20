@@ -4,7 +4,7 @@ import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.repository.GastoRepository
 import javax.inject.Inject
 
-class DeleteGastoUseCase @Inject constructor(
+class DeleteOneGastoUseCase @Inject constructor(
     private val repository: GastoRepository
 ) {
 

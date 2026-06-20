@@ -4,10 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.santos.valdomiro.meusgastos.HomeScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.adicionargasto.AdicionarGastoScreen
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.editargasto.EditarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos.ListaGastosScreen
 
 @Composable
@@ -36,13 +39,13 @@ fun AppNavigation(
             composable(Route.AdicionarGastoRoute.route) {
                 AdicionarGastoScreen()
             }
-//            composable(
-//                route = "editar-barril/{barrilId}",
-//                arguments = listOf(navArgument("barrilId") { type = NavType.StringType })
-//            ) { backStackEntry ->
-//                val barrilId = backStackEntry.arguments?.getString("barrilId") ?: return@composable
-//                EditarGastoScreen(barrilId = barrilId)
-//            }
+            composable(
+                route = "editar-gasto/{gastoId}",
+                arguments = listOf(navArgument("gastoId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val gastoId = backStackEntry.arguments?.getString("gastoId") ?: return@composable
+                EditarGastoScreen(gastoId = gastoId)
+            }
 
 //            // Produto
 //            composable(Route.ListaProdutosRoute.route) {

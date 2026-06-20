@@ -1,5 +1,7 @@
 package com.santos.valdomiro.meusgastos.features.gasto.domain.usecase
 
+import android.util.Log
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.repository.GastoRepository
 import java.time.Instant
@@ -31,6 +33,7 @@ class UpdateGastoUseCase @Inject constructor(
             criadoEm = params.criadoEm,
             editadoEm = editadoEm
         )
+
 
         return repository.updateGasto(gasto)
     }
