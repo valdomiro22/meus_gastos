@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.meusgastos.core.util.TAG
+import com.santos.valdomiro.meusgastos.features.categoria.domain.entity.CategoriaEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.InsertGastoParams
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.InsertGastoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,8 +31,8 @@ class AdicionarGastoViewModel @Inject constructor(
         _uiState.update { it.copy(valor = value, erroValor = null) }
     }
 
-    fun onCategoriaIdChanged(value: String) {
-        _uiState.update { it.copy(categoriaId = value, erroCategoriaId = null) }
+    fun onCategoriaIdChanged(categoria: CategoriaEntity) {
+        _uiState.update { it.copy(categoriaId = categoria.id, erroCategoriaId = null) }
     }
 
     fun onObservacaoChanged(value: String) {

@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.santos.valdomiro.meusgastos.common.components.EmptyListState
+import com.santos.valdomiro.meusgastos.common.components.EmptyListScreen
 import com.santos.valdomiro.meusgastos.common.components.ErroComponent
 import com.santos.valdomiro.meusgastos.common.state.UiState
 import com.santos.valdomiro.meusgastos.features.categoria.domain.entity.CategoriaEntity
@@ -115,7 +115,7 @@ fun ListaCategoriasScreen(
                     (state as? UiState.Success<List<CategoriaEntity>>)?.data ?: emptyList()
 
                 if (listaCategorias.isEmpty()) {
-                    EmptyListState(mensagem = "Toque no botão + para adicionar uma categoria e organizar seus gastos.")
+                    EmptyListScreen(mensagem = "Toque no botão + para adicionar uma categoria e organizar seus gastos.")
                 } else {
                     LazyColumn(
                         modifier = Modifier

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun EmptyListState(modifier: Modifier = Modifier, mensagem: String) {
+fun EmptyListScreen(modifier: Modifier = Modifier, mensagem: String) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -77,5 +77,5 @@ fun EmptyListState(modifier: Modifier = Modifier, mensagem: String) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewEmptyListState() {
-    EmptyListState(mensagem = "Toque no botão + para adicionar um barril e utilizar na produção.")
+    EmptyListScreen(mensagem = "Toque no botão + para adicionar um barril e utilizar na produção.")
 }

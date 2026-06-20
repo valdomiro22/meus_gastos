@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -62,15 +62,18 @@ fun ItemGastoComponent(
 
     val tituloColor = if (isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
     val textoSecundarioColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+
     val gastoColor = if (isDark) Color(0xFF60A5FA) else Color(0xFF2563EB)
-
-
     val gastoContainerColor = if (isDark) Color(0xFF122B4A) else Color(0xFFE0ECFF)
-    val deleteColor = if (isDark) Color(0xFFFF7A7E) else Color(0xFFE23A3A)
+
     val categoriaContainerColor = if (isDark) Color(0xFF173B5C) else Color(0xFFE0F2FE)
     val categoriaTextColor = if (isDark) Color(0xFF7DD3FC) else Color(0xFF0369A1)
 
     val menuIconColor = if (isDark) Color(0xFFCBD5E1) else Color(0xFF475569)
+    val deleteColor = if (isDark) Color(0xFFFF7A7E) else Color(0xFFE23A3A)
+
+    val menuContainerColor = if (isDark) Color(0xFF172033) else Color(0xFFFFFFFF)
+    val menuBorderColor = if (isDark) Color(0xFF2A3A55) else Color(0xFFE2E8F0)
 
     Card(
         modifier = Modifier
@@ -98,7 +101,7 @@ fun ItemGastoComponent(
             Box(
                 modifier = Modifier
                     .width(5.dp)
-                    .height(92.dp)
+                    .heightIn(min = 92.dp)
                     .background(
                         color = gastoColor,
                         shape = RoundedCornerShape(50.dp)
@@ -111,31 +114,19 @@ fun ItemGastoComponent(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(7.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                Surface(
+                    modifier = Modifier.widthIn(max = 190.dp),
+                    shape = RoundedCornerShape(50.dp),
+                    color = categoriaContainerColor,
+                    contentColor = categoriaTextColor
                 ) {
-                    Surface(
-                        shape = RoundedCornerShape(50.dp),
-                        color = categoriaContainerColor,
-                        contentColor = categoriaTextColor
-                    ) {
-                        Text(
-                            text = categoria.uppercase(),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
                     Text(
-                        text = dataFormatada,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = textoSecundarioColor,
-                        maxLines = 1
+                        text = categoria.uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
@@ -157,6 +148,13 @@ fun ItemGastoComponent(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
+
+                Text(
+                    text = dataFormatada,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = textoSecundarioColor,
+                    maxLines = 1
+                )
             }
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -176,7 +174,8 @@ fun ItemGastoComponent(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Black,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
-                        maxLines = 1
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
@@ -196,12 +195,12 @@ fun ItemGastoComponent(
                         expanded = menuExpandido,
                         onDismissRequest = { menuExpandido = false },
                         shape = RoundedCornerShape(18.dp),
-                        containerColor = if (isDark) Color(0xFF172033) else Color(0xFFFFFFFF),
+                        containerColor = menuContainerColor,
                         tonalElevation = 6.dp,
                         shadowElevation = 8.dp,
                         border = BorderStroke(
                             width = 1.dp,
-                            color = if (isDark) Color(0xFF2A3A55) else Color(0xFFE2E8F0)
+                            color = menuBorderColor
                         )
                     ) {
                         DropdownMenuItem(

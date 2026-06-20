@@ -44,10 +44,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.santos.valdomiro.meusgastos.common.components.EmptyListState
+import com.santos.valdomiro.meusgastos.common.components.EmptyListScreen
 import com.santos.valdomiro.meusgastos.common.components.ErroComponent
 import com.santos.valdomiro.meusgastos.common.state.UiState
-import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
+import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoDetalhado
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.components.ItemGastoComponent
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
 import com.santos.valdomiro.meusgastos.navigation.Route
@@ -57,7 +57,7 @@ import com.santos.valdomiro.meusgastos.ui.theme.Dimens
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListaGastosScreen(
-    viewModel: ListaGastosViewModel = hiltViewModel()
+    viewModel: ListaGastosDetalhadosViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
@@ -165,10 +165,10 @@ fun ListaGastosScreen(
 
             state.isSuccess -> {
                 val listaGastos =
-                    (state as? UiState.Success<List<GastoEntity>>)?.data ?: emptyList()
+                    (state as? UiState.Success<List<GastoDetalhado>>)?.data ?: emptyList()
 
                 if (listaGastos.isEmpty()) {
-                    EmptyListState(mensagem = "Toque no botão + para adicionar um gasto e listar seus gastos.")
+                    EmptyListScreen(mensagem = "Toque no botão + para adicionar um gasto e listar seus gastos.")
                 } else {
                     LazyColumn(
                         modifier = Modifier
@@ -184,15 +184,21 @@ fun ListaGastosScreen(
                     ) {
                         items(
                             items = listaGastos,
-                            key = { gasto -> gasto.id }
+                            key = { gasto -> gasto.gastoId }
                         ) { gasto ->
                             ItemGastoComponent(
-                                titulo = gasto.descricao,
-                                valor = gasto.valor.toString(),
-                                data = gasto.data,
-                                categoria = gasto.categoriaId ?: "fasdf",
-                                observacao = gasto.observacao,
-                                onEditar = { navController.navigate(Route.EditarGastoRoute.criarRota(gastoId = gasto.id)) },
+                                titulo = gasto.gastoDescricao,
+                                valor = gasto.gastoValor.toString(),
+                                data = gasto.gastoData,
+                                categoria = gasto.categoriaNome,
+                                observacao = gasto.gastoObservacao,
+                                onEditar = {
+                                    navController.navigate(
+                                        Route.EditarGastoRoute.criarRota(
+                                            gastoId = gasto.gastoId
+                                        )
+                                    )
+                                },
                                 onDeletar = { viewModel.deletarGasto(gasto) },
                             )
                         }
