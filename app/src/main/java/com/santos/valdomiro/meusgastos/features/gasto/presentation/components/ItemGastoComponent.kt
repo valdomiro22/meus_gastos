@@ -194,7 +194,15 @@ fun ItemGastoComponent(
 
                     DropdownMenu(
                         expanded = menuExpandido,
-                        onDismissRequest = { menuExpandido = false }
+                        onDismissRequest = { menuExpandido = false },
+                        shape = RoundedCornerShape(18.dp),
+                        containerColor = if (isDark) Color(0xFF172033) else Color(0xFFFFFFFF),
+                        tonalElevation = 6.dp,
+                        shadowElevation = 8.dp,
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = if (isDark) Color(0xFF2A3A55) else Color(0xFFE2E8F0)
+                        )
                     ) {
                         DropdownMenuItem(
                             text = { Text("Editar") },
