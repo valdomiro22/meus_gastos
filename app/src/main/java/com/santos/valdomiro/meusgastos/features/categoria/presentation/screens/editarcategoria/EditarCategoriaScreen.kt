@@ -1,6 +1,5 @@
-package com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.adicionarcategoria
+package com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.editarcategoria
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -30,18 +29,22 @@ import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdicionarCategoriaScreen(
-    viewModel: AdicionarCategoriaViewModel = hiltViewModel()
+fun EditarCategoriaScreen(
+    categoriaId: String,
+    viewModel: EditarCategoriaViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
 
-    LaunchedEffect(state.isSuccess) {
-        if (state.isSuccess) {
+    LaunchedEffect(Unit) {
+        viewModel.buscarCategoria(categoriaId = categoriaId)
+    }
+
+    LaunchedEffect(state.isEditSuccess) {
+        if (state.isEditSuccess) {
             navController.popBackStack()
-            Toast.makeText(context, "Grade salva", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -50,7 +53,7 @@ fun AdicionarCategoriaScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Adicionar Categoria",
+                        text = "Editar Categoria",
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
@@ -82,9 +85,10 @@ fun AdicionarCategoriaScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             ButtomFillMaxWidth(
-                onClick = {viewModel.adicionarCategoria()},
-                text = "Adicionar"
+                onClick = {viewModel.editarCategoria()},
+                text = "Salvar"
             )
         }
     }
+
 }

@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.santos.valdomiro.meusgastos.HomeScreen
 import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.adicionarcategoria.AdicionarCategoriaScreen
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.editarcategoria.EditarCategoriaScreen
 import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.listacategorias.ListaCategoriasScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.adicionargasto.AdicionarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.editargasto.EditarGastoScreen
@@ -38,9 +39,11 @@ fun AppNavigation(
             composable(Route.ListaGastosRoute.route) {
                 ListaGastosScreen()
             }
+
             composable(Route.AdicionarGastoRoute.route) {
                 AdicionarGastoScreen()
             }
+
             composable(
                 route = "editar-gasto/{gastoId}",
                 arguments = listOf(navArgument("gastoId") { type = NavType.StringType })
@@ -53,19 +56,23 @@ fun AppNavigation(
             composable(Route.AdicionarCategoriaRoute.route) {
                 AdicionarCategoriaScreen()
             }
+
             composable(Route.ListaCategoriasRoute.route) {
                 ListaCategoriasScreen()
             }
+
+            composable(
+                route = "editar-categoria/{categoriaId}",
+                arguments = listOf(navArgument("categoriaId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val categoriaId = backStackEntry.arguments?.getString("categoriaId") ?: return@composable
+                EditarCategoriaScreen(categoriaId = categoriaId)
+            }
+
+
+
 //            composable(Route.AdicionarProdutoRoute.route) {
 //                AdicionarProdutoScreen()
-//            }
-//            composable(
-//                route = "editar-produto/{produtoId}",
-//                arguments = listOf(navArgument("produtoId") { type = NavType.StringType })
-//            ) { backStackEntry ->
-//                val produtoId =
-//                    backStackEntry.arguments?.getString("produtoId") ?: return@composable
-//                EditarProdutoScreen(produtoId = produtoId)
 //            }
 //
 //            // Grade
