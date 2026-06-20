@@ -1,7 +1,5 @@
-package com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos
+package com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.listacategorias
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
@@ -47,8 +44,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.santos.valdomiro.meusgastos.common.components.EmptyListState
 import com.santos.valdomiro.meusgastos.common.components.ErroComponent
 import com.santos.valdomiro.meusgastos.common.state.UiState
-import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
-import com.santos.valdomiro.meusgastos.features.gasto.presentation.components.ItemGastoComponent
+import com.santos.valdomiro.meusgastos.features.categoria.domain.entity.CategoriaEntity
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.components.ItemCategoriaComponent
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
 import com.santos.valdomiro.meusgastos.navigation.Route
 import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
@@ -56,71 +53,28 @@ import com.santos.valdomiro.meusgastos.ui.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaGastosScreen(
-    viewModel: ListaGastosViewModel = hiltViewModel()
+fun ListaCategoriasScreen(
+    viewModel: ListaCategoriasViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
     val navController = LocalNavController.current
     val state by viewModel.uiState.collectAsState()
-    var menuExpandido by remember { mutableStateOf(false) }  // Para o controle do DropdownMenu
-    val isDark = isSystemInDarkTheme()
 
     LaunchedEffect(Unit) {
         viewModel.getAll()
     }
-
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Lista de Gastos",
+                        text = "Lista de Categorias",
                         fontWeight = FontWeight.W500,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
-                },
-                actions = {
-                    IconButton(onClick = { menuExpandido = true }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Mais opções",
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = menuExpandido,
-                        onDismissRequest = { menuExpandido = false },
-                        shape = RoundedCornerShape(18.dp),
-                        containerColor = if (isDark) Color(0xFF172033) else Color(0xFFFFFFFF),
-                        tonalElevation = 6.dp,
-                        shadowElevation = 8.dp,
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = if (isDark) Color(0xFF2A3A55) else Color(0xFFE2E8F0)
-                        )
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Histórico") },
-                            onClick = {
-//                                menuExpandido = false
-//                                navController.navigate(
-//                                    Route.ListaMovimentacaoRoute.criarRota(
-//                                        producaoId = producaoId
-//                                    )
-//                                )
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Categorias") },
-                            onClick = {
-                                menuExpandido = false
-                                navController.navigate(Route.ListaCategoriasRoute.route)
-                            }
-                        )
-                    }
                 },
                 windowInsets = WindowInsets(0),
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -133,7 +87,7 @@ fun ListaGastosScreen(
         },
         floatingActionButton = {
             LargeFloatingActionButton(
-                onClick = { navController.navigate(Route.AdicionarGastoRoute.route) },
+                onClick = { navController.navigate(Route.AdicionarCategoriaRoute.route) },
                 containerColor = MaterialTheme.colorScheme.secondary,
                 contentColor = Color(0xFFFFFFFF)
             ) {
@@ -164,11 +118,10 @@ fun ListaGastosScreen(
             }
 
             state.isSuccess -> {
-                val listaGastos =
-                    (state as? UiState.Success<List<GastoEntity>>)?.data ?: emptyList()
+                val listaCategorias = (state as? UiState.Success<List<CategoriaEntity>>)?.data ?: emptyList()
 
-                if (listaGastos.isEmpty()) {
-                    EmptyListState(mensagem = "Toque no botão + para adicionar um gasto e listar seus gastos.")
+                if (listaCategorias.isEmpty()) {
+                    EmptyListState(mensagem = "Toque no botão + para adicionar uma categoria e organizar seus gastos.")
                 } else {
                     LazyColumn(
                         modifier = Modifier
@@ -183,17 +136,14 @@ fun ListaGastosScreen(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         items(
-                            items = listaGastos,
-                            key = { gasto -> gasto.id }
-                        ) { gasto ->
-                            ItemGastoComponent(
-                                titulo = gasto.descricao,
-                                valor = gasto.valor.toString(),
-                                data = gasto.data,
-                                categoria = gasto.categoriaId ?: "fasdf",
-                                observacao = gasto.observacao,
-                                onEditar = { navController.navigate(Route.EditarGastoRoute.criarRota(gastoId = gasto.id)) },
-                                onDeletar = { viewModel.deletarGasto(gasto) },
+                            items = listaCategorias,
+                            key = { categoria -> categoria.id }
+                        ) { categoria ->
+                            ItemCategoriaComponent(
+                                nome = categoria.nome,
+                                data = categoria.criadoEm,
+                                onEditar = { navController.navigate(Route.EditarGastoRoute.criarRota(gastoId = categoria.id)) },
+                                onDeletar = {  },
                             )
                         }
                     }

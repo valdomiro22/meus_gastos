@@ -5,6 +5,7 @@ import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import java.time.Instant
 import java.time.ZoneOffset
 
+/** Converte LocalModel para Entity */
 fun GastoLocalModel.toEntity() = GastoEntity(
     id = this.id,
     descricao = this.descricao,
@@ -18,6 +19,7 @@ fun GastoLocalModel.toEntity() = GastoEntity(
     editadoEm = this.editadoEm?.let { Instant.ofEpochMilli(it) }
 )
 
+/** Converte Entity para LocalModel */
 fun GastoEntity.toLocalModel() = GastoLocalModel(
     id = this.id,
     descricao = this.descricao,

@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.santos.valdomiro.meusgastos.HomeScreen
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.adicionarcategoria.AdicionarCategoriaScreen
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.listacategorias.ListaCategoriasScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.adicionargasto.AdicionarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.editargasto.EditarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos.ListaGastosScreen
@@ -47,10 +49,13 @@ fun AppNavigation(
                 EditarGastoScreen(gastoId = gastoId)
             }
 
-//            // Produto
-//            composable(Route.ListaProdutosRoute.route) {
-//                ListaProdutosScreen()
-//            }
+            // Categoria
+            composable(Route.AdicionarCategoriaRoute.route) {
+                AdicionarCategoriaScreen()
+            }
+            composable(Route.ListaCategoriasRoute.route) {
+                ListaCategoriasScreen()
+            }
 //            composable(Route.AdicionarProdutoRoute.route) {
 //                AdicionarProdutoScreen()
 //            }
