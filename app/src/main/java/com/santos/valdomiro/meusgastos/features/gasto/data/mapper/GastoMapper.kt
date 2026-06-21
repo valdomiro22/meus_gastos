@@ -11,12 +11,13 @@ fun GastoLocalModel.toEntity() = GastoEntity(
     descricao = this.descricao,
     valor = this.valor,
     categoriaId = this.categoriaId,
+    categoriaNome = this.categoriaNome,
     data = Instant.ofEpochMilli(this.data)
         .atZone(ZoneOffset.UTC)
         .toLocalDate(),
     observacao = this.observacao,
     criadoEm = Instant.ofEpochMilli(this.criadoEm),
-    editadoEm = this.editadoEm?.let { Instant.ofEpochMilli(it) }
+    editadoEm = this.editadoEm?.let { Instant.ofEpochMilli(it) },
 )
 
 /** Converte Entity para LocalModel */
@@ -25,6 +26,7 @@ fun GastoEntity.toLocalModel() = GastoLocalModel(
     descricao = this.descricao,
     valor = this.valor,
     categoriaId = this.categoriaId,
+    categoriaNome = this.categoriaNome,
     data = this.data
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant()

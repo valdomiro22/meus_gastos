@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.meusgastos.core.util.TAG
+import com.santos.valdomiro.meusgastos.features.categoria.domain.entity.CategoriaEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.GetOneGastoUseCase
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.UpdateGastoParams
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.UpdateGastoUseCase
@@ -64,8 +65,8 @@ class EditarGastoViewModel @Inject constructor(
         _uiState.update { it.copy(valor = value, erroValor = null) }
     }
 
-    fun onCategoriaIdChanged(value: String) {
-        _uiState.update { it.copy(categoriaId = value, erroCategoriaId = null) }
+    fun onCategoriaChanged(categoria: CategoriaEntity) {
+        _uiState.update { it.copy(categoriaId = categoria.id, categoriaNome = categoria.nome, erroCategoria = null) }
     }
 
     fun onObservacaoChanged(value: String) {
@@ -97,7 +98,8 @@ class EditarGastoViewModel @Inject constructor(
                 id = currentState.id,
                 descricao = currentState.descricao,
                 valor = valorDouble,
-                categoriaId = currentState.categoriaId,
+                categoriaId = currentState.categoriaId!!,
+                categoriaNome = currentState.categoriaNome!!,
                 data = currentState.data ?: LocalDate.now(),
                 observacao = currentState.observacao,
                 criadoEm = currentState.criadoEm ?: Instant.now()
@@ -137,6 +139,11 @@ class EditarGastoViewModel @Inject constructor(
         if (state.valor.isEmpty()) {
             isValidos = false
             newState = newState.copy(erroValor = "Digite o valor")
+        }
+
+        if (state.categoriaId == null || state.categoriaNome == null ) {
+            isValidos = false
+            newState = newState.copy(erroCategoria = "Selecione uma categoria")
         }
 
         _uiState.update { newState }

@@ -1,9 +1,7 @@
 package com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.adicionargasto
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.features.categoria.domain.entity.CategoriaEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.InsertGastoParams
 import com.santos.valdomiro.meusgastos.features.gasto.domain.usecase.InsertGastoUseCase
@@ -31,8 +29,8 @@ class AdicionarGastoViewModel @Inject constructor(
         _uiState.update { it.copy(valor = value, erroValor = null) }
     }
 
-    fun onCategoriaIdChanged(categoria: CategoriaEntity) {
-        _uiState.update { it.copy(categoriaId = categoria.id, erroCategoriaId = null) }
+    fun onCategoriaChanged(categoria: CategoriaEntity) {
+        _uiState.update { it.copy(categoriaId = categoria.id, categoriaNome = categoria.nome, erroCategoria = null) }
     }
 
     fun onObservacaoChanged(value: String) {
@@ -64,7 +62,8 @@ class AdicionarGastoViewModel @Inject constructor(
             val params = InsertGastoParams(
                 descricao = currentState.descricao,
                 valor = valorDouble,
-                categoriaId = currentState.categoriaId,
+                categoriaId = currentState.categoriaId!!,
+                categoriaNome = currentState.categoriaNome!!,
                 data = currentState.data ?: LocalDate.now(),
                 observacao = currentState.observacao
             )
@@ -91,6 +90,11 @@ class AdicionarGastoViewModel @Inject constructor(
         if (state.valor.isEmpty()) {
             isValidos = false
             newState = newState.copy(erroValor = "Digite o valor")
+        }
+
+        if (state.categoriaId == null || state.categoriaNome == null ) {
+            isValidos = false
+            newState = newState.copy(erroCategoria = "Selecione uma categoria")
         }
 
         _uiState.update { newState }

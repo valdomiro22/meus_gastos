@@ -70,6 +70,7 @@ fun DropdownCategoria(
         ) {
             OutlinedTextField(
                 value = textoBusca,
+                readOnly = true,
                 onValueChange = {
                     textoBusca = it
                     expanded = true

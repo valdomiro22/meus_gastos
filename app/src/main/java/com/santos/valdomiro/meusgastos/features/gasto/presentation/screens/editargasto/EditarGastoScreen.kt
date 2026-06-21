@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,7 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,6 +29,9 @@ import com.santos.valdomiro.meusgastos.common.components.CarregandoComponent
 import com.santos.valdomiro.meusgastos.common.components.CustomOutlinedTextField
 import com.santos.valdomiro.meusgastos.common.components.DatePickerDialogComponent
 import com.santos.valdomiro.meusgastos.common.components.ErroComponent
+import com.santos.valdomiro.meusgastos.common.state.UiState
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.components.DropdownCategoria
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.listacategorias.ListaCategoriasViewModel
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
 import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
 
@@ -33,19 +39,22 @@ import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
 @Composable
 fun EditarGastoScreen(
     gastoId: String,
-    viewModel: EditarGastoViewModel = hiltViewModel()
+    gastoViewModel: EditarGastoViewModel = hiltViewModel(),
+    categoriaVM: ListaCategoriasViewModel = hiltViewModel()
 ) {
 
-    val state by viewModel.uiState.collectAsState()
+    val gastoState by gastoViewModel.uiState.collectAsState()
+    val categoriaState by categoriaVM.uiState.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.buscarGasto(gastoId = gastoId)
+        gastoViewModel.buscarGasto(gastoId = gastoId)
+        categoriaVM.getAll()
     }
 
-    LaunchedEffect(state.isEditSuccess) {
-        if (state.isEditSuccess) {
+    LaunchedEffect(gastoState.isEditSuccess) {
+        if (gastoState.isEditSuccess) {
             navController.popBackStack()
         }
     }
@@ -79,57 +88,89 @@ fun EditarGastoScreen(
         ) {
             CustomOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = state.descricao,
-                onValueChange = viewModel::onDescricaoChanged,
+                value = gastoState.descricao,
+                onValueChange = gastoViewModel::onDescricaoChanged,
                 label = "Descrição",
-                isErro = state.erroDescricao != null,
+                isErro = gastoState.erroDescricao != null,
             )
-            if (state.erroDescricao != null) ErroComponent(state.erroDescricao!!)
+            if (gastoState.erroDescricao != null) ErroComponent(gastoState.erroDescricao!!)
             Spacer(modifier = Modifier.height(8.dp))
 
             CustomOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = state.valor,
-                onValueChange = viewModel::onValorChanged,
+                value = gastoState.valor,
+                onValueChange = gastoViewModel::onValorChanged,
                 placeholder = "Ex: 9.59",
                 label = "Valor",
-                isErro = state.erroValor != null,
+                isErro = gastoState.erroValor != null,
             )
-            if (state.erroValor != null) ErroComponent(state.erroValor!!)
+            if (gastoState.erroValor != null) ErroComponent(gastoState.erroValor!!)
+            Spacer(modifier = Modifier.height(8.dp))
+
+            when (val categoriaWhenState = categoriaState) {
+                is UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = "Carregando barris...",
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+
+                is UiState.Success -> {
+                    DropdownCategoria(
+                        listaEntity = categoriaWhenState.data,
+                        itemIdAtual = gastoState.categoriaId,
+                        onItemSelecionado = gastoViewModel::onCategoriaChanged,
+                        navController = navController
+                    )
+                }
+
+                is UiState.Error -> {
+                    Text(
+                        text = "Erro ao carregar barris: ${categoriaWhenState.message}",
+                        color = Color.Red
+                    )
+                }
+
+                is UiState.Idle -> {
+                    Text("Aguardando carregamento dos barris...")
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
 
             DatePickerDialogComponent(
-                selectedDate = state.data,
-                onDateSelected = viewModel::onDataChanged,
+                selectedDate = gastoState.data,
+                onDateSelected = gastoViewModel::onDataChanged,
                 label = "Data de Produção"
             )
-            if (state.erroData != null) ErroComponent(state.erroData!!)
+            if (gastoState.erroData != null) ErroComponent(gastoState.erroData!!)
             Spacer(modifier = Modifier.height(8.dp))
 
             CustomOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = state.observacao ?: "",
-                onValueChange = viewModel::onObservacaoChanged,
+                value = gastoState.observacao ?: "",
+                onValueChange = gastoViewModel::onObservacaoChanged,
                 placeholder = "Observação...",
                 label = "Observação",
-                isErro = state.erroObservacao != null,
+                isErro = gastoState.erroObservacao != null,
                 minLines = 2,
                 maxLines = 5
             )
-            if (state.erroObservacao != null) ErroComponent(state.erroObservacao!!)
-            if (state.erroGeral != null) ErroComponent(state.erroGeral!!)
+            if (gastoState.erroObservacao != null) ErroComponent(gastoState.erroObservacao!!)
+            if (gastoState.erroGeral != null) ErroComponent(gastoState.erroGeral!!)
             Spacer(modifier = Modifier.height(16.dp))
 
             ButtomFillMaxWidth(
                 onClick = {
-                    viewModel.onCategoriaIdChanged("sdfds")
-                    viewModel.editarGasto()
+                    gastoViewModel.editarGasto()
                 },
                 text = "Salvar"
             )
             Spacer(modifier = Modifier.height(24.dp))
 
-            if (state.isLoading) CarregandoComponent()
+            if (gastoState.isLoading) CarregandoComponent()
 
         }
     }

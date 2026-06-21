@@ -20,6 +20,14 @@ class InsertGastoUseCase @Inject constructor(
             return Result.failure(IllegalArgumentException("O valor deve ser maior do que zero"))
         }
 
+        if (params.categoriaId.isBlank()) {
+            return Result.failure(IllegalArgumentException("ID da categoria não pode esta vazio"))
+        }
+
+        if (params.categoriaNome.isEmpty()) {
+            return Result.failure(IllegalArgumentException("Nome da categoria não pode esta vazio"))
+        }
+
         val idGerado = UUID.randomUUID().toString()
         val criadoEm = Instant.now()
 
@@ -28,6 +36,7 @@ class InsertGastoUseCase @Inject constructor(
             descricao = params.descricao,
             valor = params.valor,
             categoriaId = params.categoriaId,
+            categoriaNome = params.categoriaNome,
             data = params.data,
             observacao = params.observacao,
             criadoEm = criadoEm,
@@ -41,7 +50,8 @@ class InsertGastoUseCase @Inject constructor(
 data class InsertGastoParams(
     val descricao: String,
     val valor: Double,
-    val categoriaId: String?,
+    val categoriaId: String,
+    val categoriaNome: String,
     val data: LocalDate,
     val observacao: String?,
 )

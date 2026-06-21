@@ -1,14 +1,15 @@
-package com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos
+package com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.gastosporcategoria
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -41,34 +42,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.santos.valdomiro.meusgastos.common.components.EmptyListScreen
 import com.santos.valdomiro.meusgastos.common.components.ErroComponent
 import com.santos.valdomiro.meusgastos.common.state.UiState
-import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoDetalhado
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.components.DropdownCategoria
+import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.listacategorias.ListaCategoriasViewModel
 import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.components.ItemGastoComponent
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
 import com.santos.valdomiro.meusgastos.navigation.Route
 import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
-import com.santos.valdomiro.meusgastos.ui.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaGastosScreen(
-    viewModel: ListaGastosDetalhadosViewModel = hiltViewModel()
+fun GastosPorCategoriaScreen(
+    gastoVM: GastosPorCategoriaViewModel = hiltViewModel(),
+    categoriaVM: ListaCategoriasViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
     val navController = LocalNavController.current
-    val state by viewModel.uiState.collectAsState()
+    val gastoState by gastoVM.uiState.collectAsState()
+    val categoriaState by categoriaVM.uiState.collectAsState()
     var menuExpandido by remember { mutableStateOf(false) }
     val isDark = isSystemInDarkTheme()
+    val categoriaSelecionadaId by gastoVM.categoriaSelecionadaId.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getAll()
+        categoriaVM.getAll()
     }
 
 
@@ -77,7 +80,7 @@ fun ListaGastosScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Lista de Gastos",
+                        text = "Gastos da categoria",
                         fontWeight = FontWeight.W500,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
@@ -145,67 +148,112 @@ fun ListaGastosScreen(
             }
         }
     ) { innerPadding ->
-        when {
-            state.isLoading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+        ) {
+            when (val categoriaWhenState = categoriaState) {
+                is UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+
+                    Text(
+                        text = "Carregando categorias...",
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+
+                is UiState.Success -> {
+                    DropdownCategoria(
+                        listaEntity = categoriaWhenState.data,
+                        itemIdAtual = categoriaSelecionadaId,
+                        onItemSelecionado = gastoVM::onCategoriaChanged,
+                        navController = navController
+                    )
+                }
+
+                is UiState.Error -> {
+                    Text(
+                        text = "Erro ao carregar categorias: ${categoriaWhenState.message}",
+                        color = Color.Red
+                    )
+                }
+
+                is UiState.Idle -> {
+                    Text("Aguardando carregamento das categorias...")
                 }
             }
+            Spacer(modifier = Modifier.height(24.dp))
 
-            state.isError -> {
-                ErroComponent(
-                    mensagem = (state as? UiState.Error)?.message
-                        ?: "Erro desconhecido ao listar contadores"
-                )
-            }
 
-            state.isSuccess -> {
-                val listaGastos =
-                    (state as? UiState.Success<List<GastoEntity>>)?.data ?: emptyList()
+            // Gastos
+            when {
+                gastoState is UiState.Idle -> {
+                    EmptyListScreen(
+                        mensagem = "Selecione uma categoria para visualizar os gastos."
+                    )
+                }
 
-                if (listaGastos.isEmpty()) {
-                    EmptyListScreen(mensagem = "Toque no botão + para adicionar um gasto e listar seus gastos.")
-                } else {
-                    LazyColumn(
+                gastoState.isLoading -> {
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(
-                                top = innerPadding.calculateTopPadding(),
-                                start = innerPadding.calculateStartPadding(LayoutDirection.Ltr),
-                                end = innerPadding.calculateEndPadding(LayoutDirection.Ltr),
-                                bottom = 0.dp
-                            )
-                            .padding(horizontal = Dimens.paddingHorizontal),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
                     ) {
-                        items(
-                            items = listaGastos,
-                            key = { gasto -> gasto.id }
-                        ) { gasto ->
-                            ItemGastoComponent(
-                                titulo = gasto.descricao,
-                                valor = gasto.valor.toString(),
-                                data = gasto.data,
-                                categoria = gasto.categoriaNome,
-                                observacao = gasto.observacao,
-                                onEditar = {
-                                    navController.navigate(
-                                        Route.EditarGastoRoute.criarRota(
-                                            gastoId = gasto.id
+                        CircularProgressIndicator()
+                    }
+                }
+
+                gastoState.isError -> {
+                    ErroComponent(
+                        mensagem = (gastoState as? UiState.Error)?.message
+                            ?: "Erro desconhecido ao listar gastos"
+                    )
+                }
+
+                gastoState.isSuccess -> {
+                    val listaGastos =
+                        (gastoState as? UiState.Success<List<GastoEntity>>)?.data ?: emptyList()
+
+                    if (listaGastos.isEmpty()) {
+                        EmptyListScreen(
+                            mensagem = "Nenhum gasto encontrado para esta categoria."
+                        )
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            items(
+                                items = listaGastos,
+                                key = { gasto -> gasto.id }
+                            ) { gasto ->
+                                ItemGastoComponent(
+                                    titulo = gasto.descricao,
+                                    valor = gasto.valor.toString(),
+                                    data = gasto.data,
+                                    categoria = gasto.categoriaNome,
+                                    observacao = gasto.observacao,
+                                    onEditar = {
+                                        navController.navigate(
+                                            Route.EditarGastoRoute.criarRota(
+                                                gastoId = gasto.id
+                                            )
                                         )
-                                    )
-                                },
-                                onDeletar = { viewModel.deletarGasto(gasto) },
-                            )
+                                    },
+                                    onDeletar = { gastoVM.deletarGasto(gasto) }
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 }

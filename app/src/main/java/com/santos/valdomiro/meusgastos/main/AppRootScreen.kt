@@ -8,6 +8,6 @@ fun AppRootScreen(
 ) {
 
     MainAppScreen(
-        startDestination = Route.ListaGastosRoute.route
+        startDestination = Route.HomeRoute.route
     )
 }

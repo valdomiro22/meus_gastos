@@ -12,7 +12,8 @@ data class GastoLocalModel(
 
     val descricao: String,
     val valor: Double,
-    val categoriaId: String? = null,
+    val categoriaId: String,
+    val categoriaNome: String,
     val data: Long,
     val observacao: String? = null,
     val criadoEm: Long,

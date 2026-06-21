@@ -8,12 +8,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.santos.valdomiro.meusgastos.HomeScreen
+import com.santos.valdomiro.meusgastos.features.home.HomeScreen
 import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.adicionarcategoria.AdicionarCategoriaScreen
 import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.editarcategoria.EditarCategoriaScreen
 import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.listacategorias.ListaCategoriasScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.adicionargasto.AdicionarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.editargasto.EditarGastoScreen
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.gastosporcategoria.GastosPorCategoriaScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos.ListaGastosScreen
 
 @Composable
@@ -50,6 +51,14 @@ fun AppNavigation(
             ) { backStackEntry ->
                 val gastoId = backStackEntry.arguments?.getString("gastoId") ?: return@composable
                 EditarGastoScreen(gastoId = gastoId)
+            }
+
+            composable(
+                route = "gastos-por-categoria/{categoriaId}",
+                arguments = listOf(navArgument("categoriaId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val categoriaId = backStackEntry.arguments?.getString("categoriaId") ?: return@composable
+                GastosPorCategoriaScreen()
             }
 
             // Categoria

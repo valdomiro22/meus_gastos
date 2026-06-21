@@ -121,7 +121,7 @@ fun AdicionarGastoScreen(
                     DropdownCategoria(
                         listaEntity = categoriaWhenState.data,
                         itemIdAtual = gastoState.categoriaId,
-                        onItemSelecionado = gastoViewModel::onCategoriaIdChanged,
+                        onItemSelecionado = gastoViewModel::onCategoriaChanged,
                         navController = navController
                     )
                 }
@@ -137,7 +137,6 @@ fun AdicionarGastoScreen(
                     Text("Aguardando carregamento dos barris...")
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
 
             DatePickerDialogComponent(
