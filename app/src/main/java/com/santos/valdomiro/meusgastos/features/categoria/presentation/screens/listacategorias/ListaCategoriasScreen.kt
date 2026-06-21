@@ -138,9 +138,7 @@ fun ListaCategoriasScreen(
                                 data = categoria.criadoEm,
                                 onEditar = {
                                     navController.navigate(
-                                        Route.EditarCategoriaRoute.criarRota(
-                                            categoriaId = categoria.id
-                                        )
+                                        Route.EditarCategoriaRoute.route
                                     )
                                 },
                                 onDeletar = { viewModel.deltarCategoria(categoria) },

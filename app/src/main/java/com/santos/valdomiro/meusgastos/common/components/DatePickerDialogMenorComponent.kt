@@ -28,7 +28,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDialogComponent(
+fun DatePickerDialogMenorComponent(
     modifier: Modifier = Modifier,
     selectedDate: LocalDate?,
     onDateSelected: (LocalDate?) -> Unit,
@@ -36,54 +36,53 @@ fun DatePickerDialogComponent(
 ) {
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = selectedDate.toEpochMillis()
-//        initialSelectedDateMillis = LocalDate.now().toEpochMillis()
     )
 
     var showDatePicker by remember { mutableStateOf(false) }
 
     val formattedDate = selectedDate.formatToBrazilian()
 
-    OutlinedTextField(
-        value = formattedDate,
-        onValueChange = {},
-        shape = RoundedCornerShape(10.dp),
-        label = { Text(label) },
-        readOnly = true,
-        trailingIcon = {
-            IconButton(onClick = { showDatePicker = true }) {
-                Icon(
-                    imageVector = Icons.Default.CalendarToday,
-                    contentDescription = "Selecionar data"
-                )
-            }
-        },
-        modifier = modifier.fillMaxWidth()
-    )
-
-    if (showDatePicker) {
-        DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val newDate = datePickerState.selectedDateMillis.toLocalDate()
-                        onDateSelected(newDate)
-                        showDatePicker = false
-                    }
-                ) {
-                    Text("Confirmar")
+        OutlinedTextField(
+            value = formattedDate,
+            onValueChange = {},
+            shape = RoundedCornerShape(10.dp),
+            label = { Text(label) },
+            readOnly = true,
+            trailingIcon = {
+                IconButton(onClick = { showDatePicker = true }) {
+                    Icon(
+                        imageVector = Icons.Default.CalendarToday,
+                        contentDescription = "Selecionar data"
+                    )
                 }
             },
-            dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) {
-                    Text("Cancelar")
+            modifier = modifier
+        )
+
+        if (showDatePicker) {
+            DatePickerDialog(
+                onDismissRequest = { showDatePicker = false },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val newDate = datePickerState.selectedDateMillis.toLocalDate()
+                            onDateSelected(newDate)
+                            showDatePicker = false
+                        }
+                    ) {
+                        Text("Confirmar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDatePicker = false }) {
+                        Text("Cancelar")
+                    }
                 }
+            ) {
+                DatePicker(
+                    state = datePickerState,
+                    showModeToggle = true
+                )
             }
-        ) {
-            DatePicker(
-                state = datePickerState,
-                showModeToggle = true
-            )
         }
-    }
 }

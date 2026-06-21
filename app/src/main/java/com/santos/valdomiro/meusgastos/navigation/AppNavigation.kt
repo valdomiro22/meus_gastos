@@ -15,6 +15,7 @@ import com.santos.valdomiro.meusgastos.features.categoria.presentation.screens.l
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.adicionargasto.AdicionarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.editargasto.EditarGastoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.gastosporcategoria.GastosPorCategoriaScreen
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.gastosporperiodo.GastosPorPeriodoScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos.ListaGastosScreen
 
 @Composable
@@ -53,11 +54,7 @@ fun AppNavigation(
                 EditarGastoScreen(gastoId = gastoId)
             }
 
-            composable(
-                route = "gastos-por-categoria/{categoriaId}",
-                arguments = listOf(navArgument("categoriaId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val categoriaId = backStackEntry.arguments?.getString("categoriaId") ?: return@composable
+            composable(route = Route.GastosPorCategoria.route) {
                 GastosPorCategoriaScreen()
             }
 
@@ -70,14 +67,18 @@ fun AppNavigation(
                 ListaCategoriasScreen()
             }
 
+            composable(Route.GastosPorPeriodo.route) {
+                GastosPorPeriodoScreen()
+            }
+
             composable(
                 route = "editar-categoria/{categoriaId}",
                 arguments = listOf(navArgument("categoriaId") { type = NavType.StringType })
             ) { backStackEntry ->
-                val categoriaId = backStackEntry.arguments?.getString("categoriaId") ?: return@composable
+                val categoriaId =
+                    backStackEntry.arguments?.getString("categoriaId") ?: return@composable
                 EditarCategoriaScreen(categoriaId = categoriaId)
             }
-
 
 
 //            composable(Route.AdicionarProdutoRoute.route) {

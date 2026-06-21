@@ -138,6 +138,14 @@ fun HomeScreen(
                 },
                 text = "Lista por categoria"
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ButtomFillMaxWidth(
+                onClick = {
+                    navController.navigate(Route.GastosPorPeriodo.route)
+                },
+                text = "Lista por periodo"
+            )
         }
     }
 }

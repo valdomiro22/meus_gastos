@@ -23,7 +23,7 @@ object DataParaDatePicker {
     }
 
     fun LocalDate?.formatToBrazilian(): String {
-        if (this == null) return "Selecione uma data"
+        if (this == null) return "Data"
         return DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale("pt", "BR"))
             .format(this)
     }

@@ -7,68 +7,25 @@ sealed class Route(
     val title: String = "",
     val icon: ImageVector? = null
 ) {
-    data object HomeRoute: Route(route = "home", title = "Home")
+    data object HomeRoute : Route(route = "home", title = "Home")
 
     // gasto
-    data object ListaGastosRoute: Route(route = "lista-gastos", title = "Lista de Gastos")
-    data object AdicionarGastoRoute: Route(route = "adicionar-gasto", title = "Adicionar Gasto")
-    data object EditarGastoRoute: Route(route = "editar-gasto/{gastoId}", title = "Editar Gasto") {
+    data object ListaGastosRoute : Route(route = "lista-gastos", title = "Lista de Gastos")
+    data object AdicionarGastoRoute : Route(route = "adicionar-gasto", title = "Adicionar Gasto")
+    data object EditarGastoRoute : Route(route = "editar-gasto/{gastoId}", title = "Editar Gasto") {
         fun criarRota(gastoId: String) = "editar-gasto/$gastoId"
     }
-    data object GastosPorCategoria: Route(route = "gastos-por-categoria/{categoriaId}", title = "Gastos") {
-        fun criarRota(categoriaId: String) = "gastos-por-categoria/$categoriaId"
-    }
+    data object GastosPorCategoria : Route(route = "gastos-por-categoria", title = "Gastos")
+    data object GastosPorPeriodo : Route(route = "gastos-por-periodo", title = "Gastos")
 
     // Categoria
-    data object AdicionarCategoriaRoute: Route(route = "adicionar-categoria", title = "Adicionar Categoria")
+    data object AdicionarCategoriaRoute :
+        Route(route = "adicionar-categoria", title = "Adicionar Categoria")
 
-    data object ListaCategoriasRoute: Route(route = "lista-categorias", title = "Lista de Categorias")
+    data object ListaCategoriasRoute :
+        Route(route = "lista-categorias", title = "Lista de Categorias")
 
-    data object EditarCategoriaRoute: Route(route = "editar-categoria/{categoriaId}", title = "Editar Categoria") {
-        fun criarRota(categoriaId: String) = "editar-categoria/$categoriaId"
-    }
-//
-//    // Grade
-//    data object AdicionarGradeRoute: Route(route = "adicionar-grade", title = "Adicionar Grade")
-//    data object ListaGradesRoute: Route(route = "lista-grades", title = "Lista de Grades")
-//    data object EditarGradeRoute: Route(route = "editar-grade/{gradeId}", title = "Editar Grade") {
-//        fun criarRota(gradeId: String) = "editar-grade/$gradeId"
-//    }
-//
-//    // Produção
-//    data object AdicionarProducaoRoute: Route(route = "adicionar-producao/{gradeId}", title = "Adicionar Produção") {
-//        fun criarRota(gradeId: String) = "adicionar-producao/$gradeId"
-//    }
-//    data object ListaProducoesRoute: Route(route = "lista-producoes/{gradeId}", title = "Lista de Produções") {
-//        fun criarRota(gradeId: String) = "lista-producoes/$gradeId"
-//    }
-//    data object EditarProducaoRoute: Route(route = "editar-producao/{producaoId}", title = "Editar Produção") {
-//        fun criarRota(producaoId: String) = "editar-producao/$producaoId"
-//    }
-//
-//    // Movimentação
-//    data object ListaMovimentacaoRoute: Route(route = "lista-movimentacao/{producaoId}", title = "Histórico de Movimentações") {
-//        fun criarRota(producaoId: String) = "lista-movimentacao/$producaoId"
-//    }
-//
-//    // Calcular tempo de parada
-//    data object CalcularTempoDeParadaRoute: Route(route = "calcular-tempo-parada", title = "Tempo de Parada")
-//
-//    // Verificar validade
-//    data object VerificarValidadeRoute: Route(route = "verificar-validade", title = "Verificar validade")
-//
-//    // Simular fim de Produção
-//    data object SimularFimProducaoRoute :
-//        Route(route = "simular-fim-producao/{producaoId}", title = "Fim de produção") {
-//        fun criarRota(producaoId: String) =
-//            "simular-fim-producao/$producaoId"
-//    }
-//
-//    // Status da Produção
-//    data object StatusDaProducaoRoute :
-//        Route(route = "status-producao/{producaoId}", title = "Status da Produção") {
-//        fun criarRota(producaoId: String) =
-//            "status-producao/$producaoId"
-//    }
+    data object EditarCategoriaRoute :
+        Route(route = "editar-categoria", title = "Editar Categoria")
 
 }
