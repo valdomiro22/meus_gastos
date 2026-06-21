@@ -154,6 +154,14 @@ fun HomeScreen(
                 },
                 text = "Resumo do Mês"
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ButtomFillMaxWidth(
+                onClick = {
+                    navController.navigate(Route.ResumoDoDia.route)
+                },
+                text = "Resumo do Dia"
+            )
         }
     }
 }

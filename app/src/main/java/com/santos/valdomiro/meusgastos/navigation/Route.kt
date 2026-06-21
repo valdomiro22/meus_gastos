@@ -18,6 +18,7 @@ sealed class Route(
     data object GastosPorCategoria : Route(route = "gastos-por-categoria", title = "Gastos")
     data object GastosPorPeriodo : Route(route = "gastos-por-periodo", title = "Gastos")
     data object ResumoDoMes : Route(route = "resumo-do-mes", title = "Resumo do Mês")
+    data object ResumoDoDia : Route(route = "resumo-do-dia", title = "Resumo do Dia")
 
     // Categoria
     data object AdicionarCategoriaRoute :

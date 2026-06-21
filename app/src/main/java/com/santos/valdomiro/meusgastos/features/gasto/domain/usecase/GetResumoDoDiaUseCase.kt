@@ -1,5 +1,7 @@
 package com.santos.valdomiro.meusgastos.features.gasto.domain.usecase
 
+import android.util.Log
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import com.santos.valdomiro.meusgastos.features.gasto.domain.repository.GastoRepository
 import java.time.LocalDate
@@ -23,6 +25,10 @@ class GetResumoDoDiaUseCase @Inject constructor(
                         gasto.data.month == mes &&
                         gasto.data.dayOfMonth == dia
                     }
+
+                Log.d(TAG, "invoke: dia buscado: $dia/$mes/$ano")
+                Log.d(TAG, "invoke: dia do gasto: ${listaGastos.first().data}, valor: ${listaGastos.first().valor}")
+                Log.d(TAG, "invoke: dia do gasto: ${listaGastos.last().data}, valor: ${listaGastos.last().valor}")
 
                 Result.success(listaFiltrada)
             },

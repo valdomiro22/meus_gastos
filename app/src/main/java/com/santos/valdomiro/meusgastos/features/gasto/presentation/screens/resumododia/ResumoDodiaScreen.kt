@@ -1,4 +1,4 @@
-package com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumomes
+package com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumododia
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,15 +29,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumomes.CardCategoriaDestaque
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumomes.CardMetricaPreco
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumomes.CardPrincipalResumo
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
 import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResumoDoMesScreen(
-    viewModel: ResumoDoMesViewModel = hiltViewModel()
+fun ResumoDodiaScreen(
+    viewModel: ResumoDodiaViewModel = hiltViewModel()
 ) {
+
     val resumoState by viewModel.resumoState.collectAsState()
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
@@ -46,13 +50,12 @@ fun ResumoDoMesScreen(
         viewModel.getAll(LocalDate.now())
     }
 
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        "Resumo Mensal",
+                        "Resumo Diario",
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                     )
