@@ -1,6 +1,7 @@
 package com.santos.valdomiro.meusgastos.features.categoria.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -15,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.santos.valdomiro.meusgastos.common.components.ButtomFillMaxWidth
 import com.santos.valdomiro.meusgastos.features.categoria.domain.entity.CategoriaEntity
@@ -71,6 +73,7 @@ fun DropdownCategoria(
             OutlinedTextField(
                 value = textoBusca,
                 readOnly = true,
+                shape = RoundedCornerShape(10.dp),
                 onValueChange = {
                     textoBusca = it
                     expanded = true
