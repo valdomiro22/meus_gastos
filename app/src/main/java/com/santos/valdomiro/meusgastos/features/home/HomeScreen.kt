@@ -146,6 +146,14 @@ fun HomeScreen(
                 },
                 text = "Lista por periodo"
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ButtomFillMaxWidth(
+                onClick = {
+                    navController.navigate(Route.ResumoDoMes.route)
+                },
+                text = "Resumo do Mês"
+            )
         }
     }
 }
