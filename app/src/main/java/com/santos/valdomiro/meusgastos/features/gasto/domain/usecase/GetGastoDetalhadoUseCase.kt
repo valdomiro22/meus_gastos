@@ -41,7 +41,7 @@ class GetGastoDetalhadoUseCase @Inject constructor(
                 gastoId = gasto.id,
                 gastoDescricao = gasto.descricao,
                 gastoValor = gasto.valor,
-                categoriaId = gasto.categoriaId ?: "Sem categoria",
+                categoriaId = gasto.categoriaId,
                 categoriaNome = categoria?.nome ?: "Sem categoria",
                 gastoData = gasto.data,
                 gastoObservacao = gasto.observacao,

@@ -19,6 +19,7 @@ import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.gasto
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.listagastos.ListaGastosScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumododia.ResumoDodiaScreen
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumomes.ResumoDoMesScreen
+import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.totalporcategoria.TotalPorCategoriaScreen
 
 @Composable
 fun AppNavigation(
@@ -79,6 +80,10 @@ fun AppNavigation(
 
             composable(Route.ResumoDoDia.route) {
                 ResumoDodiaScreen()
+            }
+
+            composable(Route.TotalGastoPorCategoria.route) {
+                TotalPorCategoriaScreen()
             }
 
             composable(

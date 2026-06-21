@@ -162,6 +162,14 @@ fun HomeScreen(
                 },
                 text = "Resumo do Dia"
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ButtomFillMaxWidth(
+                onClick = {
+                    navController.navigate(Route.TotalGastoPorCategoria.route)
+                },
+                text = "Total por Categoria"
+            )
         }
     }
 }
