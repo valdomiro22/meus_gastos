@@ -66,7 +66,7 @@ fun GastosPorPeriodoScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Gastos da categoria",
+                        text = "Gastos por período",
                         fontWeight = FontWeight.W500,
                         textAlign = TextAlign.Center
                     )
