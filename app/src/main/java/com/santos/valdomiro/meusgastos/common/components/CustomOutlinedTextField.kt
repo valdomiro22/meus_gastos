@@ -6,6 +6,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ fun CustomOutlinedTextField(
     maxLines: Int? = null,
     minLines: Int? = null,
     isErro: Boolean,
+    isPrimeiraLetraMaiuscula: Boolean,
     icone: @Composable (() -> Unit)? = null,
     inputType: KeyboardType = KeyboardType.Text
 ) {
@@ -30,7 +32,10 @@ fun CustomOutlinedTextField(
         minLines = minLines ?: 1,
         onValueChange = onValueChange,
         placeholder = { Text(placeholder ?: "") },
-        keyboardOptions = KeyboardOptions(keyboardType = inputType),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = inputType,
+            capitalization = if (isPrimeiraLetraMaiuscula) KeyboardCapitalization.Words else KeyboardCapitalization.None
+        ),
         shape = RoundedCornerShape(10.dp),
         leadingIcon = icone,
         label = { Text(label) },
@@ -47,5 +52,6 @@ fun GreetingPreview() {
         onValueChange = {},
         label = "Nome",
         isErro = false,
+        isPrimeiraLetraMaiuscula = true
     )
 }

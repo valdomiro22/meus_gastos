@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -72,6 +76,11 @@ fun AdicionarGastoScreen(
                         textAlign = TextAlign.Center
                     )
                 },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    }
+                },
                 windowInsets = WindowInsets(0),
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -100,6 +109,7 @@ fun AdicionarGastoScreen(
                 onValueChange = gastoViewModel::onDescricaoChanged,
                 label = "Descrição",
                 isErro = gastoState.erroDescricao != null,
+                isPrimeiraLetraMaiuscula = true
             )
             if (gastoState.erroDescricao != null) ErroComponent(gastoState.erroDescricao!!)
             Spacer(modifier = Modifier.height(8.dp))
@@ -111,6 +121,7 @@ fun AdicionarGastoScreen(
                 placeholder = "Ex: 9.59",
                 label = "Valor",
                 isErro = gastoState.erroValor != null,
+                isPrimeiraLetraMaiuscula = false
             )
             if (gastoState.erroValor != null) ErroComponent(gastoState.erroValor!!)
             Spacer(modifier = Modifier.height(8.dp))
@@ -164,7 +175,8 @@ fun AdicionarGastoScreen(
                 label = "Observação",
                 isErro = gastoState.erroObservacao != null,
                 minLines = 2,
-                maxLines = 5
+                maxLines = 5,
+                isPrimeiraLetraMaiuscula = false
             )
             if (gastoState.erroObservacao != null) ErroComponent(gastoState.erroObservacao!!)
             if (gastoState.erroGeral != null) ErroComponent(gastoState.erroGeral!!)

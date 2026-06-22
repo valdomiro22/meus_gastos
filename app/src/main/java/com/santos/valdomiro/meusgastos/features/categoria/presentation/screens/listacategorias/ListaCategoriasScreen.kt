@@ -77,7 +77,7 @@ fun ListaCategoriasScreen(
                 navController = navController,
                 text = "Categoria",
                 onClick = {
-                    navController.navigate(Route.AdicionarGastoRoute.route)
+                    navController.navigate(Route.AdicionarCategoriaRoute.route)
                 })
         }
     ) { innerPadding ->
@@ -128,7 +128,7 @@ fun ListaCategoriasScreen(
                                 data = categoria.criadoEm,
                                 onEditar = {
                                     navController.navigate(
-                                        Route.EditarCategoriaRoute.route
+                                        Route.EditarCategoriaRoute.criarRota(categoria.id)
                                     )
                                 },
                                 onDeletar = { viewModel.deltarCategoria(categoria) },

@@ -74,7 +74,7 @@ fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Meus Gastos",
+                        text = "Resumo de ${mesAtualFormatadoSemAno()}",
                         fontWeight = FontWeight.W500,
                         textAlign = TextAlign.Center
                     )
@@ -105,22 +105,22 @@ fun HomeScreen(
                     bottom = 0.dp
                 )
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 16.dp)
         ) {
-            Text(
-                text = "Resumo de ${mesAtualFormatadoSemAno()}",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            Text(
-                text = mesAtualFormatado(),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
+//            Text(
+//                text = "Resumo de ${mesAtualFormatadoSemAno()}",
+//                style = MaterialTheme.typography.titleLarge,
+//                fontWeight = FontWeight.Bold,
+//                color = MaterialTheme.colorScheme.onBackground
+//            )
+//
+//            Text(
+//                text = mesAtualFormatado(),
+//                style = MaterialTheme.typography.bodyMedium,
+//                color = MaterialTheme.colorScheme.onSurfaceVariant
+//            )
+//
+//            Spacer(modifier = Modifier.height(16.dp))
 
             ResumoPrincipalCard(
                 totalGastoMes = state.totalGastoMes,

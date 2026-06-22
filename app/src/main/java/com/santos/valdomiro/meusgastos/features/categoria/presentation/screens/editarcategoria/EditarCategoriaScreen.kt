@@ -89,6 +89,7 @@ fun EditarCategoriaScreen(
                 onValueChange = viewModel::onNomeChanged,
                 label = "Nome",
                 isErro = state.erroNome != null,
+                isPrimeiraLetraMaiuscula = true
             )
             if (state.erroNome != null) ErroComponent(state.erroNome!!)
             Spacer(modifier = Modifier.height(16.dp))

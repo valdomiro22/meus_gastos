@@ -91,7 +91,7 @@ fun DropdownCategoria(
             ) {
                 listaFiltrada.forEach { produto ->
                     DropdownMenuItem(
-                        text = { Text("Categoria de ${produto.nome}") },
+                        text = { Text(produto.nome) },
                         onClick = {
                             onItemSelecionado(produto)
                             textoBusca = produto.nome

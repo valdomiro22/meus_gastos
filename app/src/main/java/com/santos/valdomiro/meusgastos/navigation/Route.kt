@@ -28,7 +28,8 @@ sealed class Route(
     data object ListaCategoriasRoute :
         Route(route = "lista-categorias", title = "Lista de Categorias")
 
-    data object EditarCategoriaRoute :
-        Route(route = "editar-categoria", title = "Editar Categoria")
+    data object EditarCategoriaRoute : Route(route = "editar-categoria", title = "Editar Categoria") {
+        fun criarRota(gastoId: String) = "editar-categoria/$gastoId"
+    }
 
 }

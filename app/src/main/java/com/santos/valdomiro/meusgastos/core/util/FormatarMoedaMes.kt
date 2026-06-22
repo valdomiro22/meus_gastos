@@ -3,7 +3,8 @@ package com.santos.valdomiro.meusgastos.core.util
 import java.time.LocalDate
 
 fun formatarMoeda(valor: Double): String {
-    return "R$ %.2f".format(valor).replace(".", ",")
+//    return "R$ %.2f".format(valor).replace(".", ",")
+    return "%.2f".format(valor).replace(".", ",")
 }
 
 fun mesAtualFormatado(): String {

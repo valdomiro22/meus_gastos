@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -83,9 +84,11 @@ fun AdicionarCategoriaScreen(
             CustomOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.nome,
+                inputType = KeyboardType.Text,
                 onValueChange = viewModel::onNomeChanged,
                 label = "Nome",
                 isErro = state.erroNome != null,
+                isPrimeiraLetraMaiuscula = true
             )
             if (state.erroNome != null) ErroComponent(state.erroNome!!)
             Spacer(modifier = Modifier.height(16.dp))

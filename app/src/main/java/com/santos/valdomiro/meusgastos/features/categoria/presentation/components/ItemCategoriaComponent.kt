@@ -1,5 +1,6 @@
 package com.santos.valdomiro.meusgastos.features.categoria.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -41,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.santos.valdomiro.meusgastos.core.helper.DataParaDatePicker.formatToBrazilian
 import com.santos.valdomiro.meusgastos.core.helper.formatarData
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import java.time.Instant
 import java.time.LocalDate
 
@@ -168,6 +170,7 @@ fun ItemCategoriaComponent(
                             text = { Text("Editar") },
                             onClick = {
                                 menuExpandido = false
+                                Log.d(TAG, "ItemCategoriaComponent: Ir para Editar categoria")
                                 onEditar()
                             },
                             leadingIcon = {

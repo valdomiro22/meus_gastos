@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -86,44 +87,9 @@ fun GastosPorCategoriaScreen(
                         textAlign = TextAlign.Center
                     )
                 },
-                actions = {
-                    IconButton(onClick = { menuExpandido = true }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Mais opções",
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = menuExpandido,
-                        onDismissRequest = { menuExpandido = false },
-                        shape = RoundedCornerShape(18.dp),
-                        containerColor = if (isDark) Color(0xFF172033) else Color(0xFFFFFFFF),
-                        tonalElevation = 6.dp,
-                        shadowElevation = 8.dp,
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = if (isDark) Color(0xFF2A3A55) else Color(0xFFE2E8F0)
-                        )
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Histórico") },
-                            onClick = {
-//                                menuExpandido = false
-//                                navController.navigate(
-//                                    Route.ListaMovimentacaoRoute.criarRota(
-//                                        producaoId = producaoId
-//                                    )
-//                                )
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Categorias") },
-                            onClick = {
-                                menuExpandido = false
-                                navController.navigate(Route.ListaCategoriasRoute.route)
-                            }
-                        )
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
                     }
                 },
                 windowInsets = WindowInsets(0),

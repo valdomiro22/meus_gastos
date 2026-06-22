@@ -22,9 +22,12 @@ import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 fun UltimosGastosCard(
     gastos: List<GastoEntity>
 ) {
+
+    val listaResumida = gastos.take(3)
+
     Column {
         Text(
-            text = "Últimos gastos",
+            text = "Últimos 3 gastos",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
@@ -67,7 +70,7 @@ fun UltimosGastosCard(
                     modifier = Modifier.padding(14.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    gastos.forEach { gasto ->
+                    listaResumida.forEach { gasto ->
                         ItemUltimoGasto(gasto = gasto)
                     }
                 }
