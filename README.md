@@ -9,7 +9,7 @@ O objetivo do app é permitir que o usuário registre gastos do dia a dia de for
 
 ## 🖼️ Telas Principais
 
-|       Tela de Listagem        |              Tela de Formulário              |              Detalhes da Tarefa (Exemplo)               |
+|       Tela de Listagem        |                Resumo do Mês                 |                    Gasto por período                    |
 |:-----------------------------:|:--------------------------------------------:|:-------------------------------------------------------:|
 | ![Home](screenshots/home.png) | ![Resumo do mes](screenshots/resumo_mes.png) | ![Gasto por período](screenshots/gasto_por_periodo.png) |
 
