@@ -1,7 +1,9 @@
 package com.santos.valdomiro.meusgastos.features.gasto.domain.usecase
 
+import android.util.Log
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.features.gasto.domain.repository.GastoRepository
-import com.santos.valdomiro.meusgastos.features.home.ResumoDoMesEntity
+import com.santos.valdomiro.meusgastos.features.home.components.ResumoDoMesEntity
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -40,6 +42,7 @@ class GetEntityResumoDoMesUseCase @Inject constructor(
                 )
             },
             onFailure = { exception ->
+                Log.d(TAG, "invoke: exception: ${exception.message}")
                 Result.failure(exception)
             }
         )

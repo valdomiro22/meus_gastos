@@ -1,5 +1,6 @@
 package com.santos.valdomiro.meusgastos.features.home
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -40,8 +41,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.santos.valdomiro.meusgastos.core.util.TAG
 import com.santos.valdomiro.meusgastos.core.util.mesAtualFormatado
 import com.santos.valdomiro.meusgastos.core.util.mesAtualFormatadoSemAno
+import com.santos.valdomiro.meusgastos.features.home.components.AtalhoHomeCard
+import com.santos.valdomiro.meusgastos.features.home.components.PequenoCardResumo
+import com.santos.valdomiro.meusgastos.features.home.components.ResumoPrincipalCard
+import com.santos.valdomiro.meusgastos.features.home.components.SecaoCategoriasComponent
+import com.santos.valdomiro.meusgastos.features.home.components.UltimosGastosCard
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
 import com.santos.valdomiro.meusgastos.navigation.Route
 import com.santos.valdomiro.meusgastos.ui.theme.AppTopBarColors
@@ -53,10 +60,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
-
     val navController = LocalNavController.current
     var menuExpandido by remember { mutableStateOf(false) }
     val isDark = isSystemInDarkTheme()
+    val qtCategorias by viewModel.qtCategorias.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.carregarResumo(LocalDate.now())
@@ -179,6 +186,8 @@ fun HomeScreen(
             )
 
             Spacer(modifier = Modifier.height(20.dp))
+
+            SecaoCategoriasComponent(quantidade = qtCategorias, navController = navController)
 
             Text(
                 text = "Atalhos",

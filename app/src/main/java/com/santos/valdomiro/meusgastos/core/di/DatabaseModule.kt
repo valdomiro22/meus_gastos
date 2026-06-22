@@ -24,6 +24,7 @@ object DatabaseModule {
             klass = MeusGastosDatabase::class.java,
             name = "meus_gastos_database"
         )
+            .fallbackToDestructiveMigration()  // Isso faz o Room apagar o banco antigo e criar outro do zero quando houver mudança de versão.
             .build()
     }
 }

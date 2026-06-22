@@ -82,23 +82,11 @@ fun GastosPorPeriodoScreen(
                 )
             )
         },
-        floatingActionButton = {
-            LargeFloatingActionButton(
-                onClick = { navController.navigate(Route.AdicionarGastoRoute.route) },
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = Color(0xFFFFFFFF)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Adicionar Grade"
-                )
-            }
-        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 10.dp)
                 .fillMaxWidth()
         ) {
 
@@ -111,7 +99,7 @@ fun GastosPorPeriodoScreen(
                     onDateSelected = viewModel::onInicioChanged,
                     label = "Início"
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(12.dp))
 
                 DatePickerDialogMenorComponent(
                     modifier = Modifier.weight(1f),

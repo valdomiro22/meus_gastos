@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.santos.valdomiro.meusgastos.core.helper.DataParaDatePicker.formatToBrazilian
 import com.santos.valdomiro.meusgastos.core.helper.DataParaDatePicker.toEpochMillis
@@ -42,47 +43,47 @@ fun DatePickerDialogMenorComponent(
 
     val formattedDate = selectedDate.formatToBrazilian()
 
-        OutlinedTextField(
-            value = formattedDate,
-            onValueChange = {},
-            shape = RoundedCornerShape(10.dp),
-            label = { Text(label) },
-            readOnly = true,
-            trailingIcon = {
-                IconButton(onClick = { showDatePicker = true }) {
-                    Icon(
-                        imageVector = Icons.Default.CalendarToday,
-                        contentDescription = "Selecionar data"
-                    )
-                }
-            },
-            modifier = modifier
-        )
-
-        if (showDatePicker) {
-            DatePickerDialog(
-                onDismissRequest = { showDatePicker = false },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            val newDate = datePickerState.selectedDateMillis.toLocalDate()
-                            onDateSelected(newDate)
-                            showDatePicker = false
-                        }
-                    ) {
-                        Text("Confirmar")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showDatePicker = false }) {
-                        Text("Cancelar")
-                    }
-                }
-            ) {
-                DatePicker(
-                    state = datePickerState,
-                    showModeToggle = true
+    OutlinedTextField(
+        value = formattedDate,
+        onValueChange = {},
+        shape = RoundedCornerShape(10.dp),
+        label = { Text(label) },
+        readOnly = true,
+        trailingIcon = {
+            IconButton(onClick = { showDatePicker = true }) {
+                Icon(
+                    imageVector = Icons.Default.CalendarToday,
+                    contentDescription = "Selecionar data"
                 )
             }
+        },
+        modifier = modifier
+    )
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val newDate = datePickerState.selectedDateMillis.toLocalDate()
+                        onDateSelected(newDate)
+                        showDatePicker = false
+                    }
+                ) {
+                    Text("Confirmar")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancelar")
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState,
+                showModeToggle = true
+            )
         }
+    }
 }
