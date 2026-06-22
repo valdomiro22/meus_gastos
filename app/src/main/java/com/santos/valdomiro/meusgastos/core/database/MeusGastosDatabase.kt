@@ -12,7 +12,7 @@ import com.santos.valdomiro.meusgastos.features.gasto.data.model.GastoLocalModel
         GastoLocalModel::class,
         CategoriaLocalModel::class,
     ],
-    version = 2,
+    version = 1,
     exportSchema = true
 )
 abstract class MeusGastosDatabase : RoomDatabase() {

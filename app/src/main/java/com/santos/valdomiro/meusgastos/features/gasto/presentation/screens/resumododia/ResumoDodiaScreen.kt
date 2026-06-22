@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.screens.resumomes.CardCategoriaDestaque
@@ -56,7 +59,7 @@ fun ResumoDodiaScreen(
                 title = {
                     Text(
                         "Resumo Diario",
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.W500,
                         textAlign = TextAlign.Center,
                     )
                 },
@@ -77,7 +80,12 @@ fun ResumoDodiaScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    start = innerPadding.calculateStartPadding(LayoutDirection.Ltr),
+                    end = innerPadding.calculateEndPadding(LayoutDirection.Ltr),
+                    bottom = 0.dp
+                )
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .verticalScroll(scrollState),

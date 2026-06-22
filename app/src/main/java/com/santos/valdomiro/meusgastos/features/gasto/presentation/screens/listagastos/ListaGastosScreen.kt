@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -22,7 +20,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,10 +41,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.santos.valdomiro.meusgastos.common.components.CustomActionButtonComponent
 import com.santos.valdomiro.meusgastos.common.components.EmptyListScreen
 import com.santos.valdomiro.meusgastos.common.components.ErroComponent
 import com.santos.valdomiro.meusgastos.common.state.UiState
-import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoDetalhado
 import com.santos.valdomiro.meusgastos.features.gasto.domain.entity.GastoEntity
 import com.santos.valdomiro.meusgastos.features.gasto.presentation.components.ItemGastoComponent
 import com.santos.valdomiro.meusgastos.navigation.LocalNavController
@@ -79,7 +76,6 @@ fun ListaGastosScreen(
                     Text(
                         text = "Lista de Gastos",
                         fontWeight = FontWeight.W500,
-                        modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
                 },
@@ -133,16 +129,9 @@ fun ListaGastosScreen(
             )
         },
         floatingActionButton = {
-            LargeFloatingActionButton(
-                onClick = { navController.navigate(Route.AdicionarGastoRoute.route) },
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = Color(0xFFFFFFFF)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Adicionar Grade"
-                )
-            }
+            CustomActionButtonComponent(navController = navController, text = "Gasto", onClick = {
+                navController.navigate(Route.AdicionarGastoRoute.route)
+            })
         }
     ) { innerPadding ->
         when {

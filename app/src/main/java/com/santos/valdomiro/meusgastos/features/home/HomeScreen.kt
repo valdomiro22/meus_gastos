@@ -1,6 +1,5 @@
 package com.santos.valdomiro.meusgastos.features.home
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,14 +16,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,9 +38,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.santos.valdomiro.meusgastos.core.util.TAG
+import com.santos.valdomiro.meusgastos.common.components.CustomActionButtonComponent
 import com.santos.valdomiro.meusgastos.core.util.mesAtualFormatado
 import com.santos.valdomiro.meusgastos.core.util.mesAtualFormatadoSemAno
 import com.santos.valdomiro.meusgastos.features.home.components.AtalhoHomeCard
@@ -76,38 +76,8 @@ fun HomeScreen(
                     Text(
                         text = "Meus Gastos",
                         fontWeight = FontWeight.W500,
-                        modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
-                },
-                actions = {
-                    IconButton(onClick = { menuExpandido = true }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Mais opções",
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = menuExpandido,
-                        onDismissRequest = { menuExpandido = false },
-                        shape = RoundedCornerShape(18.dp),
-                        containerColor = if (isDark) Color(0xFF172033) else Color.White,
-                        tonalElevation = 6.dp,
-                        shadowElevation = 8.dp,
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = if (isDark) Color(0xFF2A3A55) else Color(0xFFE2E8F0)
-                        )
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Categorias") },
-                            onClick = {
-                                menuExpandido = false
-                                navController.navigate(Route.ListaCategoriasRoute.route)
-                            }
-                        )
-                    }
                 },
                 windowInsets = WindowInsets(0),
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -119,23 +89,21 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            LargeFloatingActionButton(
-                onClick = { navController.navigate(Route.AdicionarGastoRoute.route) },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = Color.White
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Adicionar gasto"
-                )
-            }
+            CustomActionButtonComponent(navController = navController, text = "Gasto", onClick = {
+                navController.navigate(Route.AdicionarGastoRoute.route)
+            })
         }
     ) { innerPadding ->
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(innerPadding)
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    start = innerPadding.calculateStartPadding(LayoutDirection.Ltr),
+                    end = innerPadding.calculateEndPadding(LayoutDirection.Ltr),
+                    bottom = 0.dp
+                )
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
